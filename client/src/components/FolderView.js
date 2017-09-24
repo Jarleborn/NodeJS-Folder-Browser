@@ -19,23 +19,20 @@ class FolderView extends Component {
       }
       return (
         <div className="class-name">
-        <Card className='blue-grey darken-1' textClassName='white-text' title={this.props.folder.folder} actions={[<a href={this.props.houseID}>Read more</a>]}>
-        <Collection>
+
+        <h2>{this.props.folder.folder}</h2>
+        <ul>
           { files.map(function (file) {
             if (file) {
               return (
-                <CollectionItem key={file}>
-                  <Row>
-                    <Col m={4} s={12}>
-                      <b > {file} </b>
-                    </Col>
-                  </Row>
-                </CollectionItem>
+                <li>
+                  <h4 > {file} </h4>
+                </li>
               )
             }
           })}
-        </Collection>
-        </Card>
+        </ul>
+        <hr />
         </div>
       )
     } else{
