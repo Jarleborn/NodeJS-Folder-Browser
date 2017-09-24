@@ -1,21 +1,37 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import {Navbar} from 'react-materialize'
+import logo from './logo.svg'
+import './App.css'
+// import io from 'socket.io-client'
+import FolderTree from './components/FolderTree'
+// let socket = io('http://localhost:1337')
+
 
 class App extends Component {
+  state = { data: {} }
+
+  componentDidMount() {
+    // socket.on('server:event', data => {
+    //   this.setState({ data })
+    // })
+  }
+
+  sendMessage = message => {
+    console.log(message)
+    // socket.emit('getHouse', message)
+  }
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <Navbar  brand='Folder Browser' >
+        </Navbar>
+        <FolderTree
+          // socket={socket}
+          sendMessage={this.sendMessage}
+        />
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App

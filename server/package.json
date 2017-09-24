@@ -11,7 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "backpack-core": "^0.4.2",
+    "bufferutil": "^3.0.2",
+    "cors": "^2.8.4",
     "express": "^4.15.4",
-    "socket.io": "^2.0.3"
+    "socket.io": "^2.0.3",
+    "utf-8-validate": "^3.0.3"
   }
 }
