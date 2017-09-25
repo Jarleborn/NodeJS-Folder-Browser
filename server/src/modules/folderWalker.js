@@ -1,33 +1,43 @@
 const fs = require('fs')
 const data = require('../../lib/data.json')
 
-function readFolder(folder) {
-  fs.readdir(folder, (err, files) => {
-    let tmp = {}
-    tmp.files = []
-    tmp.folder = folder
-    files.forEach(file => {
+function readFolders(folder) {
+  let promiseHolder = []
+  let filesInFolder = {}
+  return new Promise(function(resolve, reject) {
+    fs.readdir(folder, (err, files) => {
 
-      if (fs.lstatSync(folder + '/' +file).isDirectory()) {
-        readFolder(folder +'/'+ file)
-      } else {
-        tmp.files.push(file)
+      filesInFolder.folder = folder
+      filesInFolder.files = []
+      filesInFolder.folders = []
+
+      for (let i = 0; i < files.length; i++) {
+
+        if (fs.lstatSync(folder + '/' +files[i]).isDirectory()) {
+          promiseHolder.push(readFolders(folder+ '/' + files[i]))
+        } else {
+          filesInFolder.files.push(files[i])
+        }
       }
+      return Promise.all(promiseHolder)
+      .then(res => {
+        console.log(res)
+        filesInFolder.folders.push(res)
+        writeToJSON(filesInFolder)
+        resolve(filesInFolder)
+      })
+      .catch(err => console.log(err))
     })
-    data.files.push(tmp)
-    tmp = {}
-    console.log(data)
-    writeToJSON(data)
   })
+
 }
 
 function writeToJSON(obj) {
-  console.log(obj)
+  // console.log(obj)
   fs.writeFile('./lib/data.json', JSON.stringify(obj), 'utf8', function (err) {
     if (err) {
       return console.log(err)
     }
-
     console.log('The file was saved!')
   })
 }
@@ -35,4 +45,4 @@ function writeToJSON(obj) {
 function returnData() {
   return data
 }
-export{readFolder, writeToJSON, returnData}
+export{readFolders, writeToJSON}

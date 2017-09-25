@@ -91,21 +91,12 @@ app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
-// app.use(express.static(__dirname + '/public'))
-// app.all('/', function (req, res, next) {
-//   res.header('Access-Control-Allow-Origin', '*')
-//   res.header('Access-Control-Allow-Headers', 'X-Requested-With')
-//   next()
-// })
 
-app.get('/getFolders', function (req, res) {
-  console.log('bajs');
-  //readFolder('./src/folders')
-  console.log('HHOOOOOOOOOOOOOOOOJ!!!!!!!!');
-  console.log(Object(__WEBPACK_IMPORTED_MODULE_0__modules_folderWalker__["a" /* returnData */])());
-  res.send(Object(__WEBPACK_IMPORTED_MODULE_0__modules_folderWalker__["a" /* returnData */])());
+app.get('/test2', function (req, res) {
+  Object(__WEBPACK_IMPORTED_MODULE_0__modules_folderWalker__["a" /* readFolders */])('./src/folders').then(function (response) {
+    return res.send(response);
+  });
 });
-
 app.listen(port, function () {
   console.log('Our app is running on http://localhost:' + port);
 });
@@ -115,39 +106,47 @@ app.listen(port, function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export readFolder */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return readFolders; });
 /* unused harmony export writeToJSON */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return returnData; });
 var fs = __webpack_require__(3);
 var data = __webpack_require__(4);
 
-function readFolder(folder) {
-  fs.readdir(folder, function (err, files) {
-    var tmp = {};
-    tmp.files = [];
-    tmp.folder = folder;
-    files.forEach(function (file) {
+function readFolders(folder) {
+  var promiseHolder = [];
+  var filesInFolder = {};
+  return new Promise(function (resolve, reject) {
+    fs.readdir(folder, function (err, files) {
 
-      if (fs.lstatSync(folder + '/' + file).isDirectory()) {
-        readFolder(folder + '/' + file);
-      } else {
-        tmp.files.push(file);
+      filesInFolder.folder = folder;
+      filesInFolder.files = [];
+      filesInFolder.folders = [];
+
+      for (var i = 0; i < files.length; i++) {
+
+        if (fs.lstatSync(folder + '/' + files[i]).isDirectory()) {
+          promiseHolder.push(readFolders(folder + '/' + files[i]));
+        } else {
+          filesInFolder.files.push(files[i]);
+        }
       }
+      return Promise.all(promiseHolder).then(function (res) {
+        console.log(res);
+        filesInFolder.folders.push(res);
+        writeToJSON(filesInFolder);
+        resolve(filesInFolder);
+      }).catch(function (err) {
+        return console.log(err);
+      });
     });
-    data.files.push(tmp);
-    tmp = {};
-    console.log(data);
-    writeToJSON(data);
   });
 }
 
 function writeToJSON(obj) {
-  console.log(obj);
+  // console.log(obj)
   fs.writeFile('./lib/data.json', JSON.stringify(obj), 'utf8', function (err) {
     if (err) {
       return console.log(err);
     }
-
     console.log('The file was saved!');
   });
 }
@@ -167,7 +166,7 @@ module.exports = require("fs");
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = {"files":[{"files":[],"folder":"./src/folders"},{"files":["bar","ff","flo","foo"],"folder":"./src/folders/bar"},{"files":["bar","ff","flo","foo","hoj"],"folder":"./src/folders/fold"},{"files":[],"folder":"./src/folders/foo"},{"files":[],"folder":"./src/folders/test"},{"files":["1","2"],"folder":"./src/folders/fold/blaw"},{"files":["1","2","3","4"],"folder":"./src/folders/fold/yo"},{"files":["w","www","wwww"],"folder":"./src/folders/foo/woo"},{"files":["hip","hop"],"folder":"./src/folders/foo/wop"},{"files":["yo.cs","yoy.cs","yoyo.cs"],"folder":"./src/folders/test/c#"},{"files":["contavts.html","index.html"],"folder":"./src/folders/test/html"},{"files":["getter.js","index.js","scraper.js","setter.js"],"folder":"./src/folders/test/js"},{"files":[".initLint",".lint"],"folder":"./src/folders/test/lint"},{"files":["getter.php","index.php","scraper.php"],"folder":"./src/folders/test/php"},{"files":["getterds.rb","index.rb","scrapereee.rb"],"folder":"./src/folders/test/ruby"},{"files":["78"],"folder":"./src/folders/fold/blaw/hoppla"},{"files":["style.css"],"folder":"./src/folders/test/html/css"},{"files":[],"folder":"./src/folders"},{"files":["bar","ff","flo","foo"],"folder":"./src/folders/bar"},{"files":["bar","ff","flo","foo","hoj"],"folder":"./src/folders/fold"},{"files":[],"folder":"./src/folders/foo"},{"files":[],"folder":"./src/folders/test"},{"files":["1","2"],"folder":"./src/folders/fold/blaw"},{"files":["1","2","3","4"],"folder":"./src/folders/fold/yo"},{"files":["w","www","wwww"],"folder":"./src/folders/foo/woo"},{"files":["hip","hop"],"folder":"./src/folders/foo/wop"},{"files":["yo.cs","yoy.cs","yoyo.cs"],"folder":"./src/folders/test/c#"},{"files":["contavts.html","index.html"],"folder":"./src/folders/test/html"},{"files":[".initLint",".lint"],"folder":"./src/folders/test/lint"},{"files":["getter.js","index.js","scraper.js","setter.js"],"folder":"./src/folders/test/js"},{"files":["getter.php","index.php","scraper.php"],"folder":"./src/folders/test/php"},{"files":["getterds.rb","index.rb","scrapereee.rb"],"folder":"./src/folders/test/ruby"},{"files":["78"],"folder":"./src/folders/fold/blaw/hoppla"},{"files":["style.css"],"folder":"./src/folders/test/html/css"}]}
+module.exports = {"folder":"./src/folders","files":["hej","hop","san"],"folders":[[{"folder":"./src/folders/bar","files":["bar","ff","flo","foo"],"folders":[[]]},{"folder":"./src/folders/fold","files":["bar","ff","flo","foo","hoj"],"folders":[[{"folder":"./src/folders/fold/blaw","files":["1","2"],"folders":[[{"folder":"./src/folders/fold/blaw/hoppla","files":["78"],"folders":[[]]}]]},{"folder":"./src/folders/fold/yo","files":["1","2","3","4"],"folders":[[]]}]]},{"folder":"./src/folders/foo","files":[],"folders":[[{"folder":"./src/folders/foo/woo","files":["w","www","wwww"],"folders":[[]]},{"folder":"./src/folders/foo/wop","files":["hip","hop"],"folders":[[]]}]]},{"folder":"./src/folders/test","files":[],"folders":[[{"folder":"./src/folders/test/c#","files":["yo.cs","yoy.cs","yoyo.cs"],"folders":[[]]},{"folder":"./src/folders/test/html","files":["contavts.html","index.html"],"folders":[[{"folder":"./src/folders/test/html/css","files":["style.css"],"folders":[[]]}]]},{"folder":"./src/folders/test/js","files":["getter.js","index.js","scraper.js","setter.js"],"folders":[[]]},{"folder":"./src/folders/test/lint","files":[".initLint",".lint"],"folders":[[]]},{"folder":"./src/folders/test/php","files":["getter.php","index.php","scraper.php"],"folders":[[]]},{"folder":"./src/folders/test/ruby","files":["getterds.rb","index.rb","scrapereee.rb"],"folders":[[]]}]]}]]}
 
 /***/ }),
 /* 5 */
