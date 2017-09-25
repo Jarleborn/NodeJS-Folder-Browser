@@ -143,7 +143,7 @@ function readFolders(folder) {
 
 function writeToJSON(obj) {
   // console.log(obj)
-  fs.writeFile('./lib/data.json', JSON.stringify(obj), 'utf8', function (err) {
+  fs.writeFile('../data.json', JSON.stringify(obj), 'utf8', function (err) {
     if (err) {
       return console.log(err);
     }

@@ -1,21 +1,21 @@
 
 import React,{Component} from 'react'
-import {Col, Row, Collection} from 'react-materialize'
+
 import FolderView from './FolderView'
 class FolderTree extends Component {
   constructor(props){
     super(props)
     this.state = {
-      files: [],
+      FoldersAndFiles: [],
     }
   }
   componentDidMount() {
-    fetch('http://localhost:1337/getFolders')
+    fetch('http://localhost:1337/test2')
     .then(function(res){
       return res.json()
     })
     .then(json => {
-      this.setState({'files':json.files})
+      this.setState({'FoldersAndFiles':json})
     })
     .catch(err => console.log(err))
   }
@@ -23,18 +23,9 @@ class FolderTree extends Component {
 
     return (
       <div className="all-list">
-        <Row>
-          <Col s={10} offset='s1'>
-            <Collection>
-              {this.state.files.map( function(folder, key){
-                return <FolderView folder={folder} />
-              })}
-            </Collection>
-          </Col>
-        </Row>
-      </div>)
-
-
+        <FolderView folder={this.state.FoldersAndFiles} />
+      </div>
+    )
   }
 }
 

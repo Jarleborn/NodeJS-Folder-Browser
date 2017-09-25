@@ -1,6 +1,6 @@
 
 import React,{Component} from 'react'
-import {Col, Row, Collection, Card, CollectionItem} from 'react-materialize'
+
 
 class FolderView extends Component {
   constructor(props){
@@ -10,33 +10,26 @@ class FolderView extends Component {
   componentDidMount() {
 
   }
+
   render() {
-    if (this.props.folder) {
-      let files = []
-      let file
-      for (file in this.props.folder.files){
-        files.push(this.props.folder.files[file])
-      }
+    console.log(this.props.folder.folder)
+    if (this.props.folder.folder) {
+
       return (
         <div className="class-name">
 
-        <h2>{this.props.folder.folder}</h2>
-        <ul>
-          { files.map(function (file) {
-            if (file) {
-              return (
-                <li>
-                  <h4 > {file} </h4>
-                </li>
-              )
-            }
-          })}
-        </ul>
-        <hr />
+        <h4>{this.props.folder.folder}</h4>
+        {this.props.folder.folders[0].map(function (folder) {
+          return <FolderView folder={folder} />
+        })}
+        {this.props.folder.files.map(function (file) {
+          return <p> {file} </p>
+        })}
+
         </div>
       )
     } else{
-      return(<p> No rooms :( </p>)
+      return(<p> No folders :( </p>)
     }
   }
 }
