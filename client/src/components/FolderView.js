@@ -34,7 +34,7 @@ class FolderView extends Component {
         <Col class="s6" className="class-name">
         <Row>
           <Col class="s10 fname">
-            <h5  > {this.props.folder.folder}</h5>
+            <h5  > {this.props.folder.folder.name}</h5>
           </Col>
           <Col class="s2 offset-s3">
             {button}
@@ -46,7 +46,7 @@ class FolderView extends Component {
             <Col class="s3 offset-s8" >
             <ul >
             { this.props.folder.files.map(function (file) {
-              return <li> {file} </li>
+              return <li> {file.name} </li>
             })}
             </ul>
 

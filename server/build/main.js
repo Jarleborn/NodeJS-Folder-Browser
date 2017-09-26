@@ -62,24 +62,41 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = __webpack_require__(1);
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return folderPath; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return jsonPath; });
+function folderPath() {
+  return '../../selfpoint/';
+}
+
+function jsonPath() {
+  return '../data.json';
+}
+
 
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(2);
+
+
+/***/ }),
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modules_folderWalker__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_config__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modules_folderWalker__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_config__ = __webpack_require__(0);
 
 var express = __webpack_require__(5);
 var app = express();
@@ -104,14 +121,14 @@ app.listen(port, function () {
 });
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return readFolders; });
 /* unused harmony export writeToJSON */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_config__ = __webpack_require__(8);
-var fs = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_config__ = __webpack_require__(0);
+var fs = __webpack_require__(4);
 
 
 function readFolders(folder) {
@@ -120,16 +137,21 @@ function readFolders(folder) {
 
   return new Promise(function (resolve, reject) {
     fs.readdir(folder, function (err, files) {
-
-      filesInFolder.folder = folder;
+      filesInFolder.folder = {};
+      filesInFolder.folder.name = folder;
+      filesInFolder.folder.type = 'folder';
       filesInFolder.files = [];
       filesInFolder.folders = [];
 
       for (var i = 0; i < files.length; i++) {
+        console.log(files);
+        var tmpObj = {};
         if (fs.lstatSync(folder + '/' + files[i]).isDirectory()) {
           promiseHolder.push(readFolders(folder + '/' + files[i]));
         } else {
-          filesInFolder.files.push(files[i]);
+          tmpObj.name = files[i];
+          tmpObj.type = 'file';
+          filesInFolder.files.push(tmpObj);
         }
       }
 
@@ -156,13 +178,12 @@ function writeToJSON(obj) {
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
-/* 4 */,
 /* 5 */
 /***/ (function(module, exports) {
 
@@ -173,24 +194,6 @@ module.exports = require("express");
 /***/ (function(module, exports) {
 
 module.exports = require("http");
-
-/***/ }),
-/* 7 */,
-/* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return folderPath; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return jsonPath; });
-function folderPath() {
-  return '../../selfpoint/';
-}
-
-function jsonPath() {
-  return '../data.json';
-}
-
-
 
 /***/ })
 /******/ ]);

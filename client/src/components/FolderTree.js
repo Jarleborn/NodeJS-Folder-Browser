@@ -23,7 +23,7 @@ class FolderTree extends Component {
 
     return (
       <div className="container">
-        <FolderView folder={this.state.FoldersAndFiles} />
+        { this.state.FoldersAndFiles.files ? <FolderView folder={this.state.FoldersAndFiles} /> : <h5> Loading.. </h5>}
       </div>
     )
   }

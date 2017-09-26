@@ -7,16 +7,21 @@ function readFolders(folder) {
 
   return new Promise(function(resolve, reject) {
     fs.readdir(folder, (err, files) => {
-
-      filesInFolder.folder = folder
+      filesInFolder.folder = {}
+      filesInFolder.folder.name = folder
+      filesInFolder.folder.type = 'folder'
       filesInFolder.files = []
       filesInFolder.folders = []
 
       for (let i = 0; i < files.length; i++) {
+        console.log(files)
+        let tmpObj = {}
         if (fs.lstatSync(folder + '/' +files[i]).isDirectory()) {
           promiseHolder.push(readFolders(folder+ '/' + files[i]))
         } else {
-          filesInFolder.files.push(files[i])
+          tmpObj.name = files[i]
+          tmpObj.type = 'file'
+          filesInFolder.files.push(tmpObj)
         }
       }
 
