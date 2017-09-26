@@ -22,7 +22,7 @@ class FolderTree extends Component {
   render() {
 
     return (
-      <div className="all-list">
+      <div className="container">
         <FolderView folder={this.state.FoldersAndFiles} />
       </div>
     )

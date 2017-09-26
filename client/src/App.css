@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  /*text-align: center;*/
 }
 
 .App-logo {
@@ -25,4 +25,13 @@
 
 b {
   color: black;
+}
+
+#folder-tree{
+  text-align: left;
+  padding: 20px;
+}
+
+.container{
+  text-align: left;
 }

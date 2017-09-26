@@ -26,8 +26,6 @@ class App extends Component {
       <Navbar  brand='Folder Browser' >
         </Navbar>
         <FolderTree
-          // socket={socket}
-          sendMessage={this.sendMessage}
         />
       </div>
     )
