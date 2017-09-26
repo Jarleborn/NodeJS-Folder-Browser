@@ -94,8 +94,7 @@ app.use(function (req, res, next) {
 });
 
 app.get('/getFolders', function (req, res) {
-  console.log(__WEBPACK_IMPORTED_MODULE_1__lib_config__["a" /* default */]);
-  Object(__WEBPACK_IMPORTED_MODULE_0__modules_folderWalker__["a" /* readFolders */])(Object(__WEBPACK_IMPORTED_MODULE_1__lib_config__["a" /* default */])()).then(function (response) {
+  Object(__WEBPACK_IMPORTED_MODULE_0__modules_folderWalker__["a" /* readFolders */])(Object(__WEBPACK_IMPORTED_MODULE_1__lib_config__["a" /* folderPath */])()).then(function (response) {
     return res.send(response);
   });
 });
@@ -111,24 +110,29 @@ app.listen(port, function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return readFolders; });
 /* unused harmony export writeToJSON */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lib_config__ = __webpack_require__(8);
 var fs = __webpack_require__(3);
+
+
 function readFolders(folder) {
   var promiseHolder = [];
   var filesInFolder = {};
+
   return new Promise(function (resolve, reject) {
     fs.readdir(folder, function (err, files) {
+
       filesInFolder.folder = folder;
       filesInFolder.files = [];
       filesInFolder.folders = [];
 
       for (var i = 0; i < files.length; i++) {
-
         if (fs.lstatSync(folder + '/' + files[i]).isDirectory()) {
           promiseHolder.push(readFolders(folder + '/' + files[i]));
         } else {
           filesInFolder.files.push(files[i]);
         }
       }
+
       return Promise.all(promiseHolder).then(function (res) {
         filesInFolder.folders.push(res);
         writeToJSON(filesInFolder);
@@ -141,7 +145,7 @@ function readFolders(folder) {
 }
 
 function writeToJSON(obj) {
-  fs.writeFile('../data.json', JSON.stringify(obj), 'utf8', function (err) {
+  fs.writeFile(Object(__WEBPACK_IMPORTED_MODULE_0__lib_config__["b" /* jsonPath */])(), JSON.stringify(obj), 'utf8', function (err) {
     if (err) {
       return console.log(err);
     }
@@ -176,9 +180,17 @@ module.exports = require("http");
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = (function () {
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return folderPath; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return jsonPath; });
+function folderPath() {
   return '../../selfpoint/';
-});
+}
+
+function jsonPath() {
+  return '../data.json';
+}
+
+
 
 /***/ })
 /******/ ]);

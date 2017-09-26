@@ -3,7 +3,7 @@ const express = require('express')
 let app = express()
 const http = require('http').Server(app)
 const port = 1337
-import config from './lib/config'
+import {folderPath} from './lib/config'
 
 
 app.use(function(req, res, next) {
@@ -13,8 +13,7 @@ app.use(function(req, res, next) {
 })
 
 app.get('/getFolders', function (req, res) {
-  console.log(config)
-  readFolders(config())
+  readFolders(folderPath())
   .then(response => res.send(response))
 })
 

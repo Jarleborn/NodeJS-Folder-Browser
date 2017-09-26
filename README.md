@@ -29,7 +29,7 @@
 
 ### Configuration
 
-  To change the folder in use change the path in server/src/lib/config.js
+  The paths for the folders and the json file you can be changed in server/src/lib/config.js
   This approach is chosen because it felt really unsafe to let the client freely move around in the folders on the server
 
 
