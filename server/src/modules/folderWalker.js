@@ -1,12 +1,9 @@
 const fs = require('fs')
-const data = require('../../lib/data.json')
-
 function readFolders(folder) {
   let promiseHolder = []
   let filesInFolder = {}
   return new Promise(function(resolve, reject) {
     fs.readdir(folder, (err, files) => {
-
       filesInFolder.folder = folder
       filesInFolder.files = []
       filesInFolder.folders = []
@@ -20,8 +17,7 @@ function readFolders(folder) {
         }
       }
       return Promise.all(promiseHolder)
-      .then(res => {
-        console.log(res)
+      .then(res => {        
         filesInFolder.folders.push(res)
         writeToJSON(filesInFolder)
         resolve(filesInFolder)
@@ -33,7 +29,6 @@ function readFolders(folder) {
 }
 
 function writeToJSON(obj) {
-  // console.log(obj)
   fs.writeFile('../data.json', JSON.stringify(obj), 'utf8', function (err) {
     if (err) {
       return console.log(err)
@@ -42,7 +37,4 @@ function writeToJSON(obj) {
   })
 }
 
-function returnData() {
-  return data
-}
 export{readFolders, writeToJSON}

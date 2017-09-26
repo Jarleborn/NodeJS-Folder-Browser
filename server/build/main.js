@@ -79,12 +79,13 @@ module.exports = __webpack_require__(1);
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modules_folderWalker__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_config__ = __webpack_require__(8);
 
 var express = __webpack_require__(5);
 var app = express();
 var http = __webpack_require__(6).Server(app);
 var port = 1337;
-var cors = __webpack_require__(7);
+
 
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -92,11 +93,13 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get('/test2', function (req, res) {
-  Object(__WEBPACK_IMPORTED_MODULE_0__modules_folderWalker__["a" /* readFolders */])('./src/folders').then(function (response) {
+app.get('/getFolders', function (req, res) {
+  console.log(__WEBPACK_IMPORTED_MODULE_1__lib_config__["a" /* default */]);
+  Object(__WEBPACK_IMPORTED_MODULE_0__modules_folderWalker__["a" /* readFolders */])(Object(__WEBPACK_IMPORTED_MODULE_1__lib_config__["a" /* default */])()).then(function (response) {
     return res.send(response);
   });
 });
+
 app.listen(port, function () {
   console.log('Our app is running on http://localhost:' + port);
 });
@@ -109,14 +112,11 @@ app.listen(port, function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return readFolders; });
 /* unused harmony export writeToJSON */
 var fs = __webpack_require__(3);
-var data = __webpack_require__(4);
-
 function readFolders(folder) {
   var promiseHolder = [];
   var filesInFolder = {};
   return new Promise(function (resolve, reject) {
     fs.readdir(folder, function (err, files) {
-
       filesInFolder.folder = folder;
       filesInFolder.files = [];
       filesInFolder.folders = [];
@@ -130,7 +130,6 @@ function readFolders(folder) {
         }
       }
       return Promise.all(promiseHolder).then(function (res) {
-        console.log(res);
         filesInFolder.folders.push(res);
         writeToJSON(filesInFolder);
         resolve(filesInFolder);
@@ -142,7 +141,6 @@ function readFolders(folder) {
 }
 
 function writeToJSON(obj) {
-  // console.log(obj)
   fs.writeFile('../data.json', JSON.stringify(obj), 'utf8', function (err) {
     if (err) {
       return console.log(err);
@@ -151,9 +149,6 @@ function writeToJSON(obj) {
   });
 }
 
-function returnData() {
-  return data;
-}
 
 
 /***/ }),
@@ -163,12 +158,7 @@ function returnData() {
 module.exports = require("fs");
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports) {
-
-module.exports = {"folder":"./src/folders","files":["hej","hop","san"],"folders":[[{"folder":"./src/folders/bar","files":["bar","ff","flo","foo"],"folders":[[]]},{"folder":"./src/folders/fold","files":["bar","ff","flo","foo","hoj"],"folders":[[{"folder":"./src/folders/fold/blaw","files":["1","2"],"folders":[[{"folder":"./src/folders/fold/blaw/hoppla","files":["78"],"folders":[[]]}]]},{"folder":"./src/folders/fold/yo","files":["1","2","3","4"],"folders":[[]]}]]},{"folder":"./src/folders/foo","files":[],"folders":[[{"folder":"./src/folders/foo/woo","files":["w","www","wwww"],"folders":[[]]},{"folder":"./src/folders/foo/wop","files":["hip","hop"],"folders":[[]]}]]},{"folder":"./src/folders/test","files":[],"folders":[[{"folder":"./src/folders/test/c#","files":["yo.cs","yoy.cs","yoyo.cs"],"folders":[[]]},{"folder":"./src/folders/test/html","files":["contavts.html","index.html"],"folders":[[{"folder":"./src/folders/test/html/css","files":["style.css"],"folders":[[]]}]]},{"folder":"./src/folders/test/js","files":["getter.js","index.js","scraper.js","setter.js"],"folders":[[]]},{"folder":"./src/folders/test/lint","files":[".initLint",".lint"],"folders":[[]]},{"folder":"./src/folders/test/php","files":["getter.php","index.php","scraper.php"],"folders":[[]]},{"folder":"./src/folders/test/ruby","files":["getterds.rb","index.rb","scrapereee.rb"],"folders":[[]]}]]}]]}
-
-/***/ }),
+/* 4 */,
 /* 5 */
 /***/ (function(module, exports) {
 
@@ -181,10 +171,14 @@ module.exports = require("express");
 module.exports = require("http");
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports) {
+/* 7 */,
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = require("cors");
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = (function () {
+  return '../../selfpoint/';
+});
 
 /***/ })
 /******/ ]);

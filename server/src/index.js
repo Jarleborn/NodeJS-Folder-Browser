@@ -3,7 +3,8 @@ const express = require('express')
 let app = express()
 const http = require('http').Server(app)
 const port = 1337
-const cors = require('cors')
+import config from './lib/config'
+
 
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*')
@@ -11,10 +12,12 @@ app.use(function(req, res, next) {
   next()
 })
 
-app.get('/test2', function (req, res) {
-  readFolders('./src/folders')
+app.get('/getFolders', function (req, res) {
+  console.log(config)
+  readFolders(config())
   .then(response => res.send(response))
 })
+
 app.listen(port, function() {
   console.log('Our app is running on http://localhost:' + port)
 })

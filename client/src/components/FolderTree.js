@@ -10,7 +10,7 @@ class FolderTree extends Component {
     }
   }
   componentDidMount() {
-    fetch('http://localhost:1337/test2')
+    fetch('http://localhost:1337/getFolders')
     .then(function(res){
       return res.json()
     })

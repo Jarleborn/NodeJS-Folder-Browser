@@ -2,6 +2,9 @@
   /*text-align: center;*/
 }
 
+html{
+  background-color: black;
+}
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
@@ -28,10 +31,43 @@ b {
 }
 
 #folder-tree{
-  text-align: left;
+  text-align: right;
   padding: 20px;
 }
 
 .container{
   text-align: left;
+  padding: 0;
+    margin: 0;
+}
+
+.custom-Row{
+  margin-left: 30px;
+}
+
+.container .row {
+    margin: 0;
+}
+
+.fname{
+  min-width: 50px;
+}
+
+.class-name{
+  border: white;
+border-left-style: solid;
+}
+
+
+h5{
+  font-size: 1.64rem;
+line-height: 110%;
+margin: .82rem 0 .656rem 0;
+color: darkorchid;
+}
+
+li {
+  list-style-type: none;
+    color: aqua;
+    font-size: 25px;
 }
